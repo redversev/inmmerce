@@ -61,26 +61,17 @@ module.exports = (grunt) ->
       html:
         files: [
           expand: true
-          cwd: 'src/'
+          cwd: 'src/templates/'
           src: ['**/*.html']
           dest: 'build/'
         ]
-      js:
-        files: [
-          expand: true
-          flatten: true
-          cwd: 'src/'
-          src: ['**/*.js']
-          dest: 'build/arquivos/'
-        ]
-      css:
-        files: [
-          expand: true
-          flatten: true
-          cwd: 'src/'
-          src: ['**/*.css']
-          dest: 'build/arquivos/'
-        ]
+
+    concat: 
+      options: 
+        separator: '\n'
+      dist: 
+        src: ['src/javascripts/plugins/*.js', 'src/javascripts/functions/*.js', 'src/javascripts/global.js']
+        dest: "build/arquivos/#{accountName}.js"
 
     coffee:
       main:
@@ -102,7 +93,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           flatten: true
-          cwd: 'src/'
+          cwd: 'src/styles/'
           src: ['**/*.scss']
           dest: 'build/arquivos/'
           ext: '.css'
@@ -117,7 +108,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           flatten: true
-          cwd: 'src/'
+          cwd: 'src/styles/'
           src: ['**/*.scss']
           dest: 'build/arquivos/'
           ext: '.min.css'
@@ -174,7 +165,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           flatten: true
-          cwd: 'src/'
+          cwd: 'src/images/'
           src: ['**/*.{png,jpg,gif}']
           dest: 'build/arquivos/'
         ]
@@ -234,7 +225,7 @@ module.exports = (grunt) ->
 
   tasks =
     # Building block tasks
-    build: ['clean', 'copy:js', 'copy:css', 'copy:html', 'sprite', 'coffee', 'less', 'sass:compile', 'imagemin']
+    build: ['clean', 'copy:html', 'concat', 'coffee', 'sass:compile', 'imagemin']
     min: ['uglify', 'cssmin', 'sass:min'] # minifies files
     # Deploy tasks
     dist: ['build', 'min'] # Dist - minifies files
